@@ -264,14 +264,63 @@ FROM (
 ORDER BY gols_pro DESC, gols_contra ASC, clube
 LIMIT 1;
 
---25. Aproveitamento de pontos de cada clube, em porcentagem.
---26. Desempenho como mandante e como visitante.
---27. Clubes que ainda não perderam.
+--25. Desempenho como mandante e como visitante.
+
+SELECT
+    clube, 
+    3 * vitorias_casa + empates_casa AS pontos_mandante,
+    3 * vitorias_fora + empates_fora AS pontos_visitante
+FROM (
+    SELECT 
+        clube.nome AS clube,
+        (SELECT 
+            COUNT(*) FROM partida WHERE (partida.id_clube_casa = clube.id_clube AND partida.gols_casa > partida.gols_fora)) AS vitorias_casa,
+        (SELECT
+            COUNT(*) FROM partida WHERE (partida.id_clube_fora = clube.id_clube AND partida.gols_fora > partida.gols_casa)) AS vitorias_fora,
+        (SELECT
+        COUNT(*) FROM partida WHERE (partida.id_clube_casa = clube.id_clube AND gols_casa = gols_fora)) AS empates_casa,
+        (SELECT
+        COUNT(*) FROM partida WHERE (partida.id_clube_fora = clube.id_clube AND gols_casa = gols_fora)) AS empates_fora
+    FROM clube
+) AS desempenho
+ORDER BY pontos_mandante DESC, pontos_visitante DESC, clube;
+
+--26. Clubes que ainda não perderam.
+
+SELECT
+    clube, vitorias, derrotas
+FROM (
+    SELECT
+        clube.nome AS clube,
+        (SELECT 
+            COUNT(*) FROM partida WHERE (partida.id_clube_casa = clube.id_clube AND partida.gols_casa > partida.gols_fora)
+            OR (partida.id_clube_fora = clube.id_clube AND partida.gols_fora > partida.gols_casa)) AS vitorias,
+        (SELECT
+            COUNT(*) FROM partida WHERE (partida.id_clube_casa = clube.id_clube AND gols_casa < gols_fora) 
+            OR (partida.id_clube_fora = clube.id_clube AND gols_casa > gols_fora)) AS derrotas
+    FROM clube
+) AS resultado
+WHERE derrotas = 0
+ORDER BY vitorias DESC, clube;
 
 --Subconsultas e casos especiais
---28. ★ Jogadores que não fizeram gol (LEFT JOIN com IS NULL, ou NOT EXISTS).
---29. Maiores goleadas (maior diferença de gols).
---30. Jogos sem gols.
+
+--27. Maiores goleadas (Diferença de 3 gols ou mais).
+
+SELECT
+    partida.id_partida AS partida,
+    casa.nome AS clube_casa,
+    fora.nome AS clube_fora,
+    partida.gols_casa AS gols_casa,
+    partida.gols_fora AS gols_fora
+FROM partida
+    JOIN clube AS casa ON partida.id_clube_casa = casa.id_clube
+    JOIN clube AS fora ON partida.id_clube_fora = fora.id_clube
+WHERE partida.gols_casa >= partida.gols_fora + 3
+ORDER BY gols_casa DESC, gols_fora DESC, partida.id_partida;
+
+
+--28. Jogos sem gols.
 
 SELECT
     partida.id_partida AS partida,
@@ -283,27 +332,93 @@ FROM partida
     JOIN clube AS fora ON partida.id_clube_fora = fora.id_clube
 WHERE partida.gols_casa + partida.gols_fora = 0;
 
---31. Clubes que nunca perderam em casa.
+--29. Clubes que nunca perderam em casa.
 
 SELECT
-    clube.nome AS clube
-    SELECT 
-     AS derrotas_casa
-FROM
+    clube.nome AS clube,
+FROM clube
+WHERE (
+    SELECT
 
---32. Clube com mais vitórias (subconsulta com MAX).
---33. Jogadores que fizeram gol e levaram cartão na mesma partida.
---34. Jogadores expulsos.
+)
+
+--30. Clube com mais vitórias (subconsulta com MAX).
+
+SELECT
+    clube, MAX(vitorias)
+FROM (
+    SELECT
+        clube.nome AS clube,
+        (SELECT 
+            COUNT(*) FROM partida WHERE (partida.id_clube_casa = clube.id_clube AND partida.gols_casa > partida.gols_fora)
+            OR (partida.id_clube_fora = clube.id_clube AND partida.gols_fora > partida.gols_casa)) AS vitorias
+    FROM clube
+) AS resultado
+GROUP BY resultado.clube, vitorias
+ORDER BY vitorias DESC
+LIMIT 1;
+
+--31. Jogadores que fizeram gol e levaram cartão na mesma partida.
+
+SELECT
+    jogador.nome AS nome,
+FROM gol
+    JOIN jogador ON gol.id_marcador = jogador.id_jogador
+WHERE gol.tipo != 'Contra' AND
+GROUP BY jogador.id_jogador, jogador.nome
+ORDER BY gols DESC, jogador.nome;
+
+--32. Jogadores expulsos.
 
 SELECT
     jogador.nome AS jogador,
-    COUNT(*) AS vermelhos
-FROM jogador
-    JOIN cartao ON cartao.id_jogador = jogador.id_jogador
-WHERE cartao.cor = 'Vermelho'
-GROUP BY jogador.id_jogador, jogador.nome
-ORDER BY vermelhos DESC, jogador.nome;
+    gol.id_partida AS partida
+FROM gol
+    JOIN cartao ON cartao.id_partida = gol.id_partida
+                AND cartao.id_jogador = gol.id_marcador
+    JOIN jogador ON jogador.id_jogador = gol.id_marcador
+WHERE gol.tipo != 'Contra'
+GROUP BY gol.id_partida, jogador.id_jogador, jogador.nome
+ORDER BY gol.id_partida;
 
---35. Jogos que tiveram gol contra.
---36. Rodada com mais gols.
---37. Clubes com menos gols sofridos que a média (subconsulta com AVG)
+--33. Jogos que tiveram gol contra.
+
+SELECT
+    partida.id_partida AS partida,
+    gol.tipo AS gols_contra
+FROM partida
+    JOIN gol ON gol.id_partida = partida.id_partida
+WHERE gol.tipo = 'Contra';
+
+--34. Rodada com mais gols.
+
+SELECT
+    partida.rodada AS rodada,
+    MAX(partida.gols_casa + partida.gols_fora) AS total_gols
+FROM partida
+GROUP BY partida.rodada
+ORDER BY total_gols DESC
+LIMIT 1;
+
+--35. Clubes com menos gols sofridos que a média (subconsulta com AVG)
+
+SELECT
+    clube,
+    gols_contra
+FROM (
+    SELECT
+        clube.nome AS clube,
+        (SELECT SUM(partida.gols_fora) FROM partida WHERE partida.id_clube_casa = clube.id_clube)
+        + (SELECT SUM(partida.gols_casa) FROM partida WHERE partida.id_clube_fora = clube.id_clube) AS gols_contra
+    FROM clube
+) AS gols_sofridos
+WHERE gols_contra < (
+    SELECT AVG(gols_contra)
+    FROM (
+        SELECT
+            (SELECT SUM(partida.gols_fora) FROM partida WHERE partida.id_clube_casa = clube.id_clube)
+            + (SELECT SUM(partida.gols_casa) FROM partida WHERE partida.id_clube_fora = clube.id_clube) AS gols_contra
+        FROM clube
+    ) AS media
+)
+ORDER BY gols_contra, clube;
