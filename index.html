@@ -24,7 +24,75 @@
 
     <main>
         <section id="times">
-            <h2>Tabela dos Times</h2>
+          <h2>Tabela dos Times</h2>
+
+          <div class="painel-times">
+            <input type="radio" name="classificacao" id="classificacao" checked>
+            <input type="radio" name="classificacao" id="vitorias-casa">
+            <input type="radio" name="classificacao" id="vitorias-fora">
+            <input type="radio" name="classificacao" id="derrotas-casa">
+            <input type="radio" name="classificacao" id="derrotas-fora">
+            <input type="radio" name="classificacao" id="gols-marcados">
+            <input type="radio" name="classificacao" id="gols-sofridos">
+  
+            <div class="opcoes-times">
+              <label for="classificacao">Classificação Geral</label>
+              <label for="vitorias-casa">Vitorias em Casa</label>
+              <label for="vitorias-fora">Vitorias fora de Casa</label>
+              <label for="derrotas-casa">Derrotas em Casa</label>
+              <label for="derrotas-fora">Derrotas fora de Casa</label>
+              <label for="gols-marcados">Gols Marcados</label>
+              <label for="gols-sofridos">Gols Sofridos</label>
+            </div>
+  
+            <div class="conteudos-times">
+  
+              <div class="conteudo" id="tabela-classificacao">
+                <h3>Classificação Geral</h3>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Posicao</th>
+                        <th>Time</th>
+                        <th>Pontos</th>
+                        <th>Jogos</th>
+                        <th>Vitorias</th>
+                        <th>Derrotas</th>
+                        <th>Saldo de Gols</th>
+                      </tr>
+                    </thead>
+
+                    <tbody id="corpo-classificacao">
+
+                    </tbody>
+                  </table>
+              </div>
+    
+              <div class="conteudo" id="tabela-vitorias-casa">
+                <h3>Vitórias em Casa</h3>
+              </div>
+  
+              <div class="conteudo" id="tabela-vitorias-fora">
+                <h3>Vitórias fora de Casa</h3>
+              </div>
+  
+              <div class="conteudo" id="tabela-derrotas-casa">
+                <h3>Derrotas em Casa</h3>
+              </div>
+  
+              <div class="conteudo" id="tabela-derrotas-fora">
+                <h3>Derrotas fora de Casa</h3>
+              </div>
+  
+              <div class="conteudo" id="tabela-gols-marcados">
+                <h3>Gols Marcados</h3>
+              </div>
+  
+              <div class="conteudo" id="tabela-gols-sofridos">
+                <h3>Gols Sofridos</h3>
+              </div>
+            </div>
+          </div>
         </section>
         
         <section id="jogadores">
