@@ -1,0 +1,153 @@
+.painel-times {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 24x;
+}
+.painel-times input {
+    display: none;
+}
+
+.opcoes-times {
+    display: flex;
+    flex-direction: column;
+    gap: 10x;
+}
+.opcoes-times label {
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--texto);
+    background-color: var(--fundo);
+    transition: 0.2s;
+}
+.opcoes-times label:hover {
+    background-color: var(--destaque-claro);
+    color: var(--destaque);
+}
+
+#classificacao:checked ~ .opcoes-times label[for="classificacao"],
+#vitorias-casa:checked ~ .opcoes-times label[for="vitorias-casa"],
+#vitorias-fora:checked ~ .opcoes-times label[for="vitorias-fora"],
+#derrotas-casa:checked ~ .opcoes-times label[for="derrotas-casa"],
+#derrotas-fora:checked ~ .opcoes-times label[for="derrotas-fora"],
+#gols-marcados:checked ~ .opcoes-times label[for="gols-marcados"],
+#gols-sofridos:checked ~ .opcoes-times label[for="gols-sofridos"] {
+    background-color: var(--destaque);
+    color: white;
+}
+
+.conteudo-times {
+    background-color: var(--cartao);
+    border: 1px solid var(--linha);
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 0;
+}
+
+.conteudo {
+    display: none;
+}
+
+#classificacao:checked ~ .conteudos-times #tabela-classificacao,
+#vitorias-casa:checked ~ .conteudos-times #tabela-vitorias-casa,
+#vitorias-fora:checked ~ .conteudos-times #tabela-vitorias-fora,
+#derrotas-casa:checked ~ .conteudos-times #tabela-derrotas-casa,
+#derrotas-fora:checked ~ .conteudos-times #tabela-derrotas-fora,
+#gols-marcados:checked ~ .conteudos-times #tabela-gols-marcados,
+#gols-sofridos:checked ~ .conteudos-times #tabela-gols-sofridos {
+    display: block;
+}
+
+@media (max-width: 600px) {
+    .painel-times {
+        grid-template-columns: 1fr;
+    }
+
+    .opcoes-times {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+#tabela-classificacao th {
+    background-color: var(--destaque-azul);
+    color: white;
+    padding: 12px;
+}
+#tabela-classificacao td {
+    padding: 12px;
+    border-bottom: 1px solid var(--linha);
+}
+#tabela-classificacao th:first-child,
+#tabela-classificacao td:first-child {
+    width: 80px;
+}
+#tabela-classificacao tbody tr:hover {
+    background-color: var(--destaque-claro);
+}
+
+#resultado-classificacao {
+    margin-top: 20px;
+    background-color: var(--cartao);
+    border: 1px solid var(--linha);
+    border-radius: 10px;
+    padding: 20px;
+}
+#resultado-classificacao h3 {
+    color: var(--destaque);
+    margin-bottom: 15px;
+}
+#btn-classificacao {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: white;
+    background-color: var(--destaque);
+}
+#btn-classificacao:hover {
+    background-color: #075c2e;
+}
+#tabela {
+    width: 100%;
+    overflow-x: auto;
+}
+#tabela table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--cartao);
+}
+#tabela th {
+    background-color: var(--destaque-azul);
+    color: white;
+    padding: 12px;
+    text-align: center;
+}
+#tabela td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid var(--linha);
+}
+#tabela tbody tr:nth-child(even) {
+    background-color: var(--destaque-claro);
+}
+#tabela tbody tr:hover {
+    background-color: var(--destaque-claro);
+}
+@media (max-width: 600px) {
+    #resultado-classificacao {
+        padding: 10px;
+    }
+
+    #tabela table {
+        min-width: 650px;
+    }
+
+    #tabela th,
+    #tabela td {
+        padding: 8px;
+        font-size: 13px;
+    }
+}
