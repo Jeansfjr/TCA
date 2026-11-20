@@ -1,7 +1,9 @@
+/* ==== Painel Geral ==== */
+
 .painel-times {
     display: grid;
     grid-template-columns: 220px 1fr;
-    gap: 24x;
+    gap: 24px;
 }
 .painel-times input {
     display: none;
@@ -10,7 +12,7 @@
 .opcoes-times {
     display: flex;
     flex-direction: column;
-    gap: 10x;
+    gap: 10px;
 }
 .opcoes-times label {
     padding: 12px;
@@ -26,17 +28,6 @@
     color: var(--destaque);
 }
 
-#classificacao:checked ~ .opcoes-times label[for="classificacao"],
-#vitorias-casa:checked ~ .opcoes-times label[for="vitorias-casa"],
-#vitorias-fora:checked ~ .opcoes-times label[for="vitorias-fora"],
-#derrotas-casa:checked ~ .opcoes-times label[for="derrotas-casa"],
-#derrotas-fora:checked ~ .opcoes-times label[for="derrotas-fora"],
-#gols-marcados:checked ~ .opcoes-times label[for="gols-marcados"],
-#gols-sofridos:checked ~ .opcoes-times label[for="gols-sofridos"] {
-    background-color: var(--destaque);
-    color: white;
-}
-
 .conteudo-times {
     background-color: var(--cartao);
     border: 1px solid var(--linha);
@@ -49,13 +40,16 @@
     display: none;
 }
 
+#classificacao:checked ~ .opcoes-times label[for="classificacao"],
+#jogos-casa:checked ~ .opcoes-times label[for="jogos-casa"],
+#jogos-fora:checked ~ .opcoes-times label[for="jogos-fora"] {
+    background-color: var(--destaque);
+    color: white;
+}
+
 #classificacao:checked ~ .conteudos-times #tabela-classificacao,
-#vitorias-casa:checked ~ .conteudos-times #tabela-vitorias-casa,
-#vitorias-fora:checked ~ .conteudos-times #tabela-vitorias-fora,
-#derrotas-casa:checked ~ .conteudos-times #tabela-derrotas-casa,
-#derrotas-fora:checked ~ .conteudos-times #tabela-derrotas-fora,
-#gols-marcados:checked ~ .conteudos-times #tabela-gols-marcados,
-#gols-sofridos:checked ~ .conteudos-times #tabela-gols-sofridos {
+#jogos-casa:checked ~ .conteudos-times #tabela-jogos-casa,
+#jogos-fora:checked ~ .conteudos-times #tabela-jogos-fora {
     display: block;
 }
 
@@ -70,35 +64,53 @@
     }
 }
 
-#tabela-classificacao th {
+/* ==== CSS das Tabelas ==== */
+
+#tabela-classificacao th,
+#tabela-jogos-casa th,
+#tabela-jogos-fora th {
     background-color: var(--destaque-azul);
     color: white;
     padding: 12px;
 }
-#tabela-classificacao td {
+#tabela-classificacao td,
+#tabela-jogos-casa td,
+#tabela-jogos-fora td {
     padding: 12px;
     border-bottom: 1px solid var(--linha);
 }
 #tabela-classificacao th:first-child,
-#tabela-classificacao td:first-child {
+#tabela-classificacao td:first-child,
+#tabela-jogos-casa th:first-child,
+#tabela-jogos-casa td:first-child,
+#tabela-jogos-fora th:first-child,
+#tabela-jogos-fora td:first-child {
     width: 80px;
 }
-#tabela-classificacao tbody tr:hover {
+#tabela-classificacao tbody tr:hover,
+#tabela-jogos-casa tbody tr:hover,
+#tabela-jogos-fora tbody tr:hover {
     background-color: var(--destaque-claro);
 }
 
-#resultado-classificacao {
+#resultado-classificacao,
+#resultado-jogos-casa,
+#resultado-jogos-fora {
     margin-top: 20px;
     background-color: var(--cartao);
     border: 1px solid var(--linha);
     border-radius: 10px;
     padding: 20px;
 }
-#resultado-classificacao h3 {
+#resultado-classificacao h3,
+#resultado-jogos-casa h3,
+#resultado-jogos-fora h3 {
     color: var(--destaque);
     margin-bottom: 15px;
 }
-#btn-classificacao {
+#btn-classificacao,
+#btn-jogos-casa,
+#btn-jogos-fora {
     padding: 12px;
     border: none;
     border-radius: 8px;
@@ -107,7 +119,9 @@
     color: white;
     background-color: var(--destaque);
 }
-#btn-classificacao:hover {
+#btn-classificacao:hover,
+#btn-jogos-casa:hover,
+#btn-jogos-fora:hover {
     background-color: #075c2e;
 }
 #tabela {
@@ -137,7 +151,9 @@
     background-color: var(--destaque-claro);
 }
 @media (max-width: 600px) {
-    #resultado-classificacao {
+    #resultado-classificacao,
+    #resultado-jogos-casa,
+    #resultado-jogos-fora {
         padding: 10px;
     }
 
@@ -151,3 +167,4 @@
         font-size: 13px;
     }
 }
+
