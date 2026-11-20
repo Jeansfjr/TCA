@@ -126,6 +126,175 @@ async function carregarAmarelos() {
     preencher('corpo-amarelos', r.data, ['clube', 'jogador', 'amarelos']);
 }
 
+async function carregarRodada1() {
+    const { data, error } = await db.from('vw_rodada_1').select('*');
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    preencherJogos('conteudo-rodada-1', data, [
+    'rodada',
+    'data_hora',
+    'mandante',
+    'visitante',
+    'placar',
+    'estadio',
+    'publico'
+]);
+}
+
+async function carregarRodada2() {
+    const { data, error } = await db.from('vw_rodada_2').select('*');
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    preencherJogos('conteudo-rodada-2', data, [
+    'rodada',
+    'data_hora',
+    'mandante',
+    'visitante',
+    'placar',
+    'estadio',
+    'publico'
+]);
+}
+
+async function carregarRodada3() {
+    const { data, error } = await db.from('vw_rodada_3').select('*');
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    preencherJogos('conteudo-rodada-3', data, [
+    'rodada',
+    'data_hora',
+    'mandante',
+    'visitante',
+    'placar',
+    'estadio',
+    'publico'
+]);
+}
+
+async function carregarRodada4() {
+    const { data, error } = await db.from('vw_rodada_4').select('*');
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    preencherJogos('conteudo-rodada-4', data, [
+    'rodada',
+    'data_hora',
+    'mandante',
+    'visitante',
+    'placar',
+    'estadio',
+    'publico'
+]);
+}
+
+async function carregarRodada5() {
+    const { data, error } = await db.from('vw_rodada_5').select('*');
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    preencherJogos('conteudo-rodada-5', data, [
+    'rodada',
+    'data_hora',
+    'mandante',
+    'visitante',
+    'placar',
+    'estadio',
+    'publico'
+]);
+}
+
+async function carregarMaisGols() {
+    const { data, error } = await db
+        .from('vw_mais_gols')
+        .select('*')
+        .order('total_gols', { ascending: false });
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    preencherJogos('conteudo-mais-gols', data, [
+        'rodada',
+        'mandante',
+        'placar',
+        'visitante',
+        'total_gols'
+    ]);
+}
+
+async function carregarSemGols() {
+    const { data, error } = await db
+        .from('vw_sem_gols')
+        .select('*');
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    preencherJogos('conteudo-sem-gols', data, [
+        'rodada',
+        'data_hora',
+        'mandante',
+        'visitante',
+        'estadio'
+    ]);
+}
+
+async function carregarExpulsos() {
+    const { data, error } = await db
+        .from('vw_expulsos')
+        .select('*');
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    preencherJogos('conteudo-expulsos', data, [
+        'rodada',
+        'mandante',
+        'visitante',
+        'jogador_expulso',
+        'clube'
+    ]);
+}
+
+async function carregarRodadasMaisGols() {
+    const { data, error } = await db
+        .from('vw_rodadas_mais_gols')
+        .select('*')
+        .order('total_gols', { ascending: false });
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    preencher('conteudo-rodada-mais-gols', data, [
+        'rodada',
+        'total_gols'
+    ]);
+}
 
 carregarClassificacao();
 carregarJogosEmCasa();
@@ -134,3 +303,12 @@ carregarArtilheiros();
 carregarAssistentes();
 carregarVermelhos();
 carregarAmarelos();
+carregarRodada1();
+carregarRodada2();
+carregarRodada3();
+carregarRodada4();
+carregarRodada5();
+carregarMaisGols();
+carregarSemGols();
+carregarExpulsos();
+carregarRodadasMaisGols();
