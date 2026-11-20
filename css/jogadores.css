@@ -1,0 +1,181 @@
+/* ==== Painel Geral ==== */
+
+.painel-jogadores {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 24x;
+}
+.painel-jogadores input {
+    display: none;
+}
+
+.opcoes-jogadores {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.opcoes-jogadores label {
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--texto);
+    background-color: var(--fundo);
+    transition: 0.2s;
+}
+.opcoes-jogadores label:hover {
+    background-color: var(--destaque-claro);
+    color: var(--destaque);
+}
+
+.conteudo-jogadores {
+    background-color: var(--cartao);
+    border: 1px solid var(--linha);
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 0;
+}
+
+.conteudo {
+    display: none;
+}
+
+#artilheiros:checked ~ .opcoes-jogadores label[for="artilheiros"],
+#assistentes:checked ~ .opcoes-jogadores label[for="assistentes"],
+#vermelhos:checked ~ .opcoes-jogadores label[for="vermelhos"],
+#amarelos:checked ~ .opcoes-jogadores label[for="amarelos"] {
+    background-color: var(--destaque);
+    color: white;
+}
+
+#artilheiros:checked ~ .conteudo-jogadores #tabela-artilheiros,
+#assistentes:checked ~ .conteudo-jogadores #tabela-assistentes,
+#vermelhos:checked ~ .conteudo-jogadores #tabela-vermelhos,
+#amarelos:checked ~ .conteudo-jogadores #tabela-amarelos {
+    display: block;
+}
+
+@media (max-width: 600px) {
+    .painel-jogadores {
+        grid-template-columns: 1fr;
+    }
+
+    .opcoes-jogadores {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* === CSS das Tabelas === */
+
+#tabela-artilheiros th,
+#tabela-assistentes th,
+#tabela-vermelhos th,
+#tabela-amarelos th {
+    background-color: var(--destaque-azul);
+    color: white;
+    padding: 12px;
+}
+#tabela-artilheiros td,
+#tabela-assistentes td,
+#tabela-vermelhos td,
+#tabela-amarelos td {
+    padding: 12px;
+    border-bottom: 1px solid var(--linha);
+}
+#tabela-artilheiros th:first-child,
+#tabela-artilheiros td:first-child,
+#tabela-assistentes th:first-child,
+#tabela-assistentes td:first-child,
+#tabela-vermelhos th:first-child,
+#tabela-vermelhos td:first-child,
+#tabela-amarelos th:first-child,
+#tabela-amarelos td:first-child {
+    width: 80px;
+}
+#tabela-artilheiros tbody tr:hover,
+#tabela-assistentes tbody tr:hover,
+#tabela-vermelhos tbody tr:hover,
+#tabela-amarelos tbody tr:hover {
+    background-color: var(--destaque-claro);
+}
+
+#resultado-artilheiros,
+#resultado-assistentes,
+#resultado-vermelhos,
+#resultado-amarelos {
+    margin-top: 20px;
+    background-color: var(--cartao);
+    border: 1px solid var(--linha);
+    border-radius: 10px;
+    padding: 20px;
+}
+#resultado-artilheiros h3,
+#resultado-assistentes h3,
+#resultado-vermelhos h3,
+#resultado-amarelos h3 {
+    color: var(--destaque);
+    margin-bottom: 15px;
+}
+#btn-artilheiros,
+#btn-assistentes,
+#btn-vermelhos,
+#btn-amarelos {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: white;
+    background-color: var(--destaque);
+}
+#btn-artilheiros:hover,
+#btn-assistentes:hover,
+#btn-vermelhos:hover,
+#btn-amarelos:hover {
+    background-color: #075c2e;
+}
+#tabela {
+    width: 100%;
+    overflow-x: auto;
+}
+#tabela table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--cartao);
+}
+#tabela th {
+    background-color: var(--destaque-azul);
+    color: white;
+    padding: 12px;
+    text-align: center;
+}
+#tabela td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid var(--linha);
+}
+#tabela tbody tr:nth-child(even) {
+    background-color: var(--destaque-claro);
+}
+#tabela tbody tr:hover {
+    background-color: var(--destaque-claro);
+}
+@media (max-width: 600px) {
+    #resultado-artilheiros,
+    #resultado-assistentes,
+    #resultado-vermelhos,
+    #resultado-amarelos {
+        padding: 10px;
+    }
+
+    #tabela table {
+        min-width: 650px;
+    }
+
+    #tabela th,
+    #tabela td {
+        padding: 8px;
+        font-size: 13px;
+    }
+}
