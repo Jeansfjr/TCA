@@ -1,109 +1,108 @@
+const db = supabase.createClient(SUPABASE_URL, SUPABASE_CHAVE);
 
-(function () {
-    'use strict';
+function preencher(idCorpo, linhas, campos) {
+  const corpo = document.getElementById(idCorpo);
 
-    const db = supabase.createClient(SUPABASE_URL, SUPABASE_CHAVE);
+  if (!corpo) {
+    console.error('Tabela não encontrada:', idCorpo);
+    return;
+  }
 
-    const secao = document.getElementById('times');
+  corpo.innerHTML = '';
 
-    // Mantém o título e prepara a área da classificação
-    secao.innerHTML = `
-        <h2>Tabela dos Times</h2>
-        <button id="btn-classificacao">Classificação Geral</button>
-        <div id="resultado-classificacao" hidden>
-            <h3>Classificação Geral</h3>
-            <p id="mensagem"></p>
-            <div id="tabela"></div>
-        </div>
-    `;
+  linhas.forEach(function (linha, i) {
+    const tr = document.createElement('tr');
 
-    const botao = document.getElementById('btn-classificacao');
-    const resultado = document.getElementById('resultado-classificacao');
-    const mensagem = document.getElementById('mensagem');
-    const tabela = document.getElementById('tabela');
+    [i + 1].concat(campos.map(function (c) {
+      return linha[c];
+    })).forEach(function (valor) {
+      const td = document.createElement('td');
+      td.textContent = valor ?? '';
+      tr.appendChild(td);
+    });
 
-    // Busca os dados no Supabase
-    async function carregarClassificacao() {
-        resultado.hidden = false;
-        mensagem.textContent = 'Carregando classificação...';
-        tabela.innerHTML = '';
+    corpo.appendChild(tr);
+  });
+}
 
-        const resposta = await db
-            .from('vw_classificacao')
-            .select('*')
-            .order('pontos', { ascending: false })
-            .order('vitorias', { ascending: false })
-            .order('saldo', { ascending: false })
-            .order('gols_pro', { ascending: false });
+async function carregarClassificacao() {
+  const r = await db.from('vw_classificacao').select('*')
+    .order('pontos', { ascending: false })
+    .order('vitorias', { ascending: false })
+    .order('saldo', { ascending: false })
+    .order('gols_pro', { ascending: false });
+  if (r.error) { console.error(r.error); return; }
 
-        if (resposta.error) {
-            console.error(resposta.error);
-            mensagem.textContent = 'Erro ao carregar a classificação.';
-            return;
-        }
+  preencher('corpo-classificacao', r.data,
+    ['clube', 'pontos', 'jogos', 'vitorias', 'derrotas', 'saldo']);
+}
 
-        if (resposta.data.length === 0) {
-            mensagem.textContent = 'Nenhum dado encontrado.';
-            return;
-        }
+async function carregarJogosEmCasa() {
+  const r = await db.from('vw_desempenho_casa').select('*');
+  if (r.error) { console.error(r.error); return; }
 
-        mensagem.textContent = '';
-        montarTabela(resposta.data);
+  const linhas = r.data.map(function (l) {
+    return Object.assign({}, l, { saldo: l.gols_pro - l.gols_contra });
+  });
+
+  linhas.sort(function (a, b) {
+    return b.vitorias - a.vitorias || b.saldo - a.saldo || b.gols_pro - a.gols_pro;
+  });
+
+  preencher('corpo-jogos-casa', linhas,
+    ['clube', 'jogos', 'vitorias', 'derrotas', 'gols_pro', 'gols_contra', 'saldo']);
+}
+
+async function carregarJogosFora() {
+  const r = await db.from('vw_desempenho_fora').select('*');
+  if (r.error) { console.error(r.error); return; }
+
+  const linhas = r.data.map(function (l) {
+    return Object.assign({}, l, { saldo: l.gols_pro - l.gols_contra });
+  });
+
+  linhas.sort(function (a, b) {
+    return b.vitorias - a.vitorias || b.saldo - a.saldo || b.gols_pro - a.gols_pro;
+  });
+
+  preencher('corpo-jogos-fora', linhas,
+    ['clube', 'jogos', 'vitorias', 'derrotas', 'gols_pro', 'gols_contra', 'saldo']);
+}
+
+async function carregarArtilheiros() {
+    const r = await db.from('vw_artilheiros').select('*');
+
+    if (r.error) { console.error(r.error); return; }
+
+    const linhas = r.data;
+
+    linhas.sort(function (a, b) {
+        return b.gols - a.gols;
+    });
+
+    preencher('corpo-artilheiros', linhas,
+        ['clube', 'jogador', 'gols']);
+
+}
+async function carregarAssistentes() {
+    const r = await db.from('vw_assistentes').select('*');
+
+    if (r.error) {
+        console.error(r.error);
+        return;
     }
 
-    // Monta a tabela com os dados recebidos
-    function montarTabela(linhas) {
-        const colunas = CATALOGO
-            .find(cat => cat.id === 'times')
-            .consultas.find(cons => cons.id === 'classificacao')
-            .colunas;
+    const linhas = r.data;
 
-        const tabelaHTML = document.createElement('table');
-        const cabecalho = document.createElement('thead');
-        const corpo = document.createElement('tbody');
-        const linhaCabecalho = document.createElement('tr');
+    linhas.sort(function (a, b) {
+        return b.assistencias - a.assistencias;
+    });
 
-        const thPosicao = document.createElement('th');
-        thPosicao.textContent = 'Posição';
-        linhaCabecalho.appendChild(thPosicao);
+    preencher('corpo-assistentes', linhas, ['clube', 'jogador', 'assistencias']);
+}
 
-        colunas.forEach(coluna => {
-            const th = document.createElement('th');
-            th.textContent = coluna.titulo;
-            linhaCabecalho.appendChild(th);
-        });
-
-        cabecalho.appendChild(linhaCabecalho);
-
-        linhas.forEach((linha, indice) => {
-            const tr = document.createElement('tr');
-
-            const tdPosicao = document.createElement('td');
-            tdPosicao.textContent = indice + 1;
-            tr.appendChild(tdPosicao);
-
-            colunas.forEach(coluna => {
-                const td = document.createElement('td');
-                let valor = linha[coluna.campo];
-
-                if (valor == null) {
-                    valor = '-';
-                } else if (coluna.formato) {
-                    valor = coluna.formato(valor);
-                }
-
-                td.textContent = valor;
-                tr.appendChild(td);
-            });
-
-            corpo.appendChild(tr);
-        });
-
-        tabelaHTML.appendChild(cabecalho);
-        tabelaHTML.appendChild(corpo);
-        tabela.appendChild(tabelaHTML);
-    }
-
-    botao.addEventListener('click', carregarClassificacao);
-
-})();
+carregarClassificacao();
+carregarJogosEmCasa();
+carregarJogosFora();
+carregarArtilheiros();
+carregarAssistentes();
