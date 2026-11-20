@@ -1,0 +1,288 @@
+
+/* ==== Painel Geral ==== */
+
+.painel-jogos {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 24px;
+}
+
+.painel-jogos input {
+    display: none;
+}
+
+.opcoes-jogos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.opcoes-jogos label {
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--texto);
+    background-color: var(--fundo);
+    transition: 0.2s;
+}
+
+.opcoes-jogos label:hover {
+    background-color: var(--destaque-claro);
+    color: var(--destaque);
+}
+
+.conteudo-jogos {
+    background-color: var(--cartao);
+    border: 1px solid var(--linha);
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 0;
+    overflow-x: auto;
+}
+
+.conteudo {
+    display: none;
+}
+
+#rodada-1:checked ~ .opcoes-jogos label[for="rodada-1"],
+#rodada-2:checked ~ .opcoes-jogos label[for="rodada-2"],
+#rodada-3:checked ~ .opcoes-jogos label[for="rodada-3"],
+#rodada-4:checked ~ .opcoes-jogos label[for="rodada-4"],
+#rodada-5:checked ~ .opcoes-jogos label[for="rodada-5"],
+#mais-gols:checked ~ .opcoes-jogos label[for="mais-gols"],
+#sem-gols:checked ~ .opcoes-jogos label[for="sem-gols"],
+#expulsos:checked ~ .opcoes-jogos label[for="expulsos"],
+#rodada-mais-gols:checked ~ .opcoes-jogos label[for="rodada-mais-gols"] {
+    background-color: var(--destaque);
+    color: white;
+}
+
+#rodada-1:checked ~ .conteudo-jogos #tabela-rodada-1,
+#rodada-2:checked ~ .conteudo-jogos #tabela-rodada-2,
+#rodada-3:checked ~ .conteudo-jogos #tabela-rodada-3,
+#rodada-4:checked ~ .conteudo-jogos #tabela-rodada-4,
+#rodada-5:checked ~ .conteudo-jogos #tabela-rodada-5,
+#mais-gols:checked ~ .conteudo-jogos #tabela-mais-gols,
+#sem-gols:checked ~ .conteudo-jogos #tabela-sem-gols,
+#expulsos:checked ~ .conteudo-jogos #tabela-expulsos,
+#rodada-mais-gols:checked ~ .conteudo-jogos #tabela-rodada-mais-gols {
+    display: block;
+}
+
+/* ==== CSS das Tabelas ==== */
+
+#tabela-rodada-1 table,
+#tabela-rodada-2 table,
+#tabela-rodada-3 table,
+#tabela-rodada-4 table,
+#tabela-rodada-5 table,
+#tabela-mais-gols table,
+#tabela-sem-gols table,
+#tabela-expulsos table,
+#tabela-rodada-mais-gols table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--cartao);
+}
+
+#tabela-rodada-1 th,
+#tabela-rodada-2 th,
+#tabela-rodada-3 th,
+#tabela-rodada-4 th,
+#tabela-rodada-5 th,
+#tabela-mais-gols th,
+#tabela-sem-gols th,
+#tabela-expulsos th,
+#tabela-rodada-mais-gols th {
+    background-color: var(--destaque-azul);
+    color: white;
+    padding: 12px;
+    text-align: center;
+}
+
+#tabela-rodada-1 td,
+#tabela-rodada-2 td,
+#tabela-rodada-3 td,
+#tabela-rodada-4 td,
+#tabela-rodada-5 td,
+#tabela-mais-gols td,
+#tabela-sem-gols td,
+#tabela-expulsos td,
+#tabela-rodada-mais-gols td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid var(--linha);
+}
+
+#tabela-rodada-1 th:first-child,
+#tabela-rodada-2 th:first-child,
+#tabela-rodada-3 th:first-child,
+#tabela-rodada-4 th:first-child,
+#tabela-rodada-5 th:first-child,
+#tabela-mais-gols th:first-child,
+#tabela-sem-gols th:first-child,
+#tabela-expulsos th:first-child,
+#tabela-rodada-mais-gols th:first-child {
+    width: 80px;
+}
+
+#tabela-rodada-1 tbody tr:hover,
+#tabela-rodada-2 tbody tr:hover,
+#tabela-rodada-3 tbody tr:hover,
+#tabela-rodada-4 tbody tr:hover,
+#tabela-rodada-5 tbody tr:hover,
+#tabela-mais-gols tbody tr:hover,
+#tabela-sem-gols tbody tr:hover,
+#tabela-expulsos tbody tr:hover,
+#tabela-rodada-mais-gols tbody tr:hover {
+    background-color: var(--destaque-claro);
+}
+
+
+#tabela-rodada-1 tbody tr:nth-child(even),
+#tabela-rodada-2 tbody tr:nth-child(even),
+#tabela-rodada-3 tbody tr:nth-child(even),
+#tabela-rodada-4 tbody tr:nth-child(even),
+#tabela-rodada-5 tbody tr:nth-child(even),
+#tabela-mais-gols tbody tr:nth-child(even),
+#tabela-sem-gols tbody tr:nth-child(even),
+#tabela-expulsos tbody tr:nth-child(even),
+#tabela-rodada-mais-gols tbody tr:nth-child(even) {
+    background-color: var(--destaque-claro);
+}
+
+#resultado-rodada-1,
+#resultado-rodada-2,
+#resultado-rodada-3,
+#resultado-rodada-4,
+#resultado-rodada-5 {
+    margin-top: 20px;
+    background-color: var(--cartao);
+    border: 1px solid var(--linha);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+#resultado-rodada-1 h3,
+#resultado-rodada-2 h3,
+#resultado-rodada-3 h3,
+#resultado-rodada-4 h3,
+#resultado-rodada-5 h3 {
+    color: var(--destaque);
+    margin-bottom: 15px;
+}
+
+#btn-rodada-1,
+#btn-rodada-2,
+#btn-rodada-3,
+#btn-rodada-4,
+#btn-rodada-5 {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: white;
+    background-color: var(--destaque);
+}
+
+#btn-rodada-1:hover,
+#btn-rodada-2:hover,
+#btn-rodada-3:hover,
+#btn-rodada-4:hover,
+#btn-rodada-5:hover {
+    background-color: #075c2e;
+}
+
+#tabela {
+    width: 100%;
+    overflow-x: auto;
+}
+
+#tabela table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--cartao);
+}
+
+#tabela th {
+    background-color: var(--destaque-azul);
+    color: white;
+    padding: 12px;
+    text-align: center;
+}
+
+#tabela td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid var(--linha);
+}
+
+#tabela tbody tr:nth-child(even) {
+    background-color: var(--destaque-claro);
+}
+
+#tabela tbody tr:hover {
+    background-color: var(--destaque-claro);
+}
+
+@media (max-width: 600px) {
+    .painel-jogos {
+        grid-template-columns: 1fr;
+    }
+
+    .opcoes-jogos {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .conteudo-jogos {
+        padding: 10px;
+    }
+
+    #resultado-rodada-1,
+    #resultado-rodada-2,
+    #resultado-rodada-3,
+    #resultado-rodada-4,
+    #resultado-rodada-5 {
+        padding: 10px;
+    }
+
+    #tabela table,
+    #tabela-rodada-1 table,
+    #tabela-rodada-2 table,
+    #tabela-rodada-3 table,
+    #tabela-rodada-4 table,
+    #tabela-rodada-5 table,
+    #tabela-mais-gols table,
+    #tabela-sem-gols table,
+    #tabela-expulsos table,
+    #tabela-rodada-mais-gols table {
+        min-width: 650px;
+    }
+
+    #tabela th,
+    #tabela td,
+    #tabela-rodada-1 th,
+    #tabela-rodada-1 td,
+    #tabela-rodada-2 th,
+    #tabela-rodada-2 td,
+    #tabela-rodada-3 th,
+    #tabela-rodada-3 td,
+    #tabela-rodada-4 th,
+    #tabela-rodada-4 td,
+    #tabela-rodada-5 th,
+    #tabela-rodada-5 td,
+    #tabela-mais-gols th,
+    #tabela-mais-gols td,
+    #tabela-sem-gols th,
+    #tabela-sem-gols td,
+    #tabela-expulsos th,
+    #tabela-expulsos td,
+    #tabela-rodada-mais-gols th,
+    #tabela-rodada-mais-gols td {
+        padding: 8px;
+        font-size: 13px;
+    }
+}
