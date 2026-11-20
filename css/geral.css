@@ -1,12 +1,12 @@
 :root {
-  --fundo: #f4f6f8;
+  --fundo: #ffffff;
   --cartao: #ffffff;
   --texto: #1c2430;
   --suave: #5b6675;
   --destaque: #0b7a3b;
   --destaque-claro: #e6f4ec;
   --destaque-azul: rgb(13, 13, 178); 
-  --linha: #dde3ea;
+  --linha: #0a02e7;
 }
 
 * {
@@ -62,17 +62,62 @@ body {
 
 #header {
     background-color: #0b7a3b;
+    padding: 12px 24px;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+}
+
+#header img {
+    height: 56px;
+    width: auto;
+    display: block;
+}
+
+.titulo-header {
     text-align: center;
 }
-#header h1, p {
+
+#header h1 {
     color: #fff;
-    padding: 1x;
+    margin: 0;
+}
+
+.logo-header {
+    height: 56px;
+    width: auto;
+    display: block;
+}
+
+#header img:first-child {
+    justify-self: start;
+}
+
+#header img:last-child {
+    justify-self: end;
+}
+
+@media (max-width: 600px) {
+    #header {
+        padding: 10px 12px;
+        gap: 8px;
+    }
+    .logo-header {
+        height: 36px;
+    }
+    #header h1 {
+        font-size: 1.3rem;
+    }
+    #header p {
+        font-size: .8rem;
+    }
 }
 
 main section {
     background-color: var(--cartao);
     border-radius: 12px;
-    border: 1px solid var(--linha);
+    border: 5px solid var(--linha);
     padding: 1.6rem;
     margin: 24px 20px auto;
     max-width: 1200px;
@@ -80,5 +125,47 @@ main section {
 }
 
 main section h2 {
-    color: #0b7a3b;
+    color: var(--destaque);
+}
+
+footer {
+    background-color: #0b7a3b;
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+footer .info p {
+    margin: 8px 0;
+    color: #fff;
+    text-align: left;
+}
+
+footer img {
+    height: 90px;
+    width: auto;
+    flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+    footer {
+        padding: 12px;
+        gap: 8px;
+    }
+    footer .info p {
+        font-size: .85rem;
+        margin: 4px 0;
+    }
+    footer img {
+        height: 60px;
+    }
+}
+
+nav {
+    background-color: var(--linha) !important;
+}
+nav a {
+    color: white !important;
 }
