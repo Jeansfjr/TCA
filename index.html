@@ -37,11 +37,15 @@
         <input type="radio" name="aba-times" id="classificacao" checked>
         <input type="radio" name="aba-times" id="jogos-casa">
         <input type="radio" name="aba-times" id="jogos-fora">
+        <input type="radio" name="aba-times" id="melhor-ataque">
+        <input type="radio" name="aba-times" id="melhor-defesa">
 
         <div class="opcoes-times">
           <label for="classificacao">Classificação Geral</label>
           <label for="jogos-casa">Jogos em Casa</label>
           <label for="jogos-fora">Jogos Fora</label>
+          <label for="melhor-ataque">Melhor Ataque</label>
+          <label for="melhor-defesa">Melhor Defesa</label>
         </div>
 
         <div class="conteudos-times">
@@ -109,6 +113,42 @@
               </thead>
 
               <tbody id="corpo-jogos-fora">
+
+              </tbody>
+            </table>
+          </div>
+
+          <div class="conteudo" id="tabela-melhor-ataque">
+            <h3>Melhor Ataque</h3>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Posicao</th>
+                  <th>Clube</th>
+                  <th>Gols Marcados</th>
+                </tr>
+              </thead>
+
+              <tbody id="corpo-melhor-ataque">
+
+              </tbody>
+            </table>
+          </div>
+
+          <div class="conteudo" id="tabela-melhor-defesa">
+            <h3>Melhor Defesa</h3>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Posicao</th>
+                  <th>Clube</th>
+                  <th>Gols Sofridos</th>
+                </tr>
+              </thead>
+
+              <tbody id="corpo-melhor-defesa">
 
               </tbody>
             </table>
