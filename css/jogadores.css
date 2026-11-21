@@ -43,7 +43,8 @@
 #artilheiros:checked ~ .opcoes-jogadores label[for="artilheiros"],
 #assistentes:checked ~ .opcoes-jogadores label[for="assistentes"],
 #vermelhos:checked ~ .opcoes-jogadores label[for="vermelhos"],
-#amarelos:checked ~ .opcoes-jogadores label[for="amarelos"] {
+#amarelos:checked ~ .opcoes-jogadores label[for="amarelos"],
+#treinadores:checked ~ .opcoes-jogadores label[for="treinadores"] {
     background-color: var(--destaque);
     color: white;
 }
@@ -51,7 +52,8 @@
 #artilheiros:checked ~ .conteudo-jogadores #tabela-artilheiros,
 #assistentes:checked ~ .conteudo-jogadores #tabela-assistentes,
 #vermelhos:checked ~ .conteudo-jogadores #tabela-vermelhos,
-#amarelos:checked ~ .conteudo-jogadores #tabela-amarelos {
+#amarelos:checked ~ .conteudo-jogadores #tabela-amarelos,
+#treinadores:checked ~ .conteudo-jogadores #tabela-treinadores {
     display: block;
 }
 
@@ -71,7 +73,8 @@
 #tabela-artilheiros th,
 #tabela-assistentes th,
 #tabela-vermelhos th,
-#tabela-amarelos th {
+#tabela-amarelos th,
+#tabela-treinadores th {
     background-color: var(--destaque-azul);
     color: white;
     padding: 12px;
@@ -79,7 +82,8 @@
 #tabela-artilheiros td,
 #tabela-assistentes td,
 #tabela-vermelhos td,
-#tabela-amarelos td {
+#tabela-amarelos td,
+#tabela-treinadores td {
     padding: 12px;
     border-bottom: 1px solid var(--linha);
 }
@@ -90,20 +94,24 @@
 #tabela-vermelhos th:first-child,
 #tabela-vermelhos td:first-child,
 #tabela-amarelos th:first-child,
-#tabela-amarelos td:first-child {
+#tabela-amarelos td:first-child,
+#tabela-treinadores th:first-child,
+#tabela-treinadores td:first-child {
     width: 80px;
 }
 #tabela-artilheiros tbody tr:hover,
 #tabela-assistentes tbody tr:hover,
 #tabela-vermelhos tbody tr:hover,
-#tabela-amarelos tbody tr:hover {
+#tabela-amarelos tbody tr:hover,
+#tabela-treinadores tbody tr:hover {
     background-color: var(--destaque-claro);
 }
 
 #resultado-artilheiros,
 #resultado-assistentes,
 #resultado-vermelhos,
-#resultado-amarelos {
+#resultado-amarelos,
+#resultado-treinadores {
     margin-top: 20px;
     background-color: var(--cartao);
     border: 1px solid var(--linha);
@@ -113,14 +121,16 @@
 #resultado-artilheiros h3,
 #resultado-assistentes h3,
 #resultado-vermelhos h3,
-#resultado-amarelos h3 {
+#resultado-amarelos h3,
+#resultado-treinadores h3 {
     color: var(--destaque);
     margin-bottom: 15px;
 }
 #btn-artilheiros,
 #btn-assistentes,
 #btn-vermelhos,
-#btn-amarelos {
+#btn-amarelos,
+#btn-treinadores {
     padding: 12px;
     border: none;
     border-radius: 8px;
@@ -132,7 +142,8 @@
 #btn-artilheiros:hover,
 #btn-assistentes:hover,
 #btn-vermelhos:hover,
-#btn-amarelos:hover {
+#btn-amarelos:hover,
+#btn-treinadores:hover {
     background-color: #075c2e;
 }
 #tabela {
@@ -165,7 +176,8 @@
     #resultado-artilheiros,
     #resultado-assistentes,
     #resultado-vermelhos,
-    #resultado-amarelos {
+    #resultado-amarelos,
+    #resultado-treinadores {
         padding: 10px;
     }
 
