@@ -3,7 +3,7 @@
 .painel-jogadores {
     display: grid;
     grid-template-columns: 220px 1fr;
-    gap: 24x;
+    gap: 24px;
 }
 .painel-jogadores input {
     display: none;
