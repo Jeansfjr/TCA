@@ -1,7 +1,5 @@
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_CHAVE);
 
-// Preenche o <tbody> de uma tabela: a 1ª coluna é a posição (1, 2, 3...)
-// e as demais vêm dos campos listados, na ordem.
 function preencher(idCorpo, linhas, campos) {
   const corpo = document.getElementById(idCorpo);
 
@@ -27,7 +25,29 @@ function preencher(idCorpo, linhas, campos) {
   });
 }
 
-// ---------- Classificação Geral ----------
+function preencherJogos(idCorpo, linhas, campos) {
+    const corpo = document.getElementById(idCorpo);
+
+    if (!corpo) {
+        console.error('Tabela não encontrada:', idCorpo);
+        return;
+    }
+
+    corpo.innerHTML = '';
+
+    linhas.forEach(function (linha) {
+        const tr = document.createElement('tr');
+
+        campos.forEach(function (c) {
+            const td = document.createElement('td');
+            td.textContent = linha[c] ?? '';
+            tr.appendChild(td);
+        });
+
+        corpo.appendChild(tr);
+    });
+}
+
 async function carregarClassificacao() {
   const r = await db.from('vw_classificacao').select('*')
     .order('pontos', { ascending: false })
@@ -70,6 +90,40 @@ async function carregarJogosFora() {
 
   preencher('corpo-jogos-fora', linhas,
     ['clube', 'jogos', 'vitorias', 'derrotas', 'gols_pro', 'gols_contra', 'saldo']);
+}
+
+async function carregarMelhorAtaque() {
+    const { data, error } = await db
+        .from('vw_melhor_ataque')
+        .select('*')
+        .order('gols_marcados', { ascending: false });
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    preencher('corpo-melhor-ataque', data, [
+        'clube',
+        'gols_marcados'
+    ]);
+}
+
+async function carregarMelhorDefesa() {
+    const { data, error } = await db
+        .from('vw_melhor_defesa')
+        .select('*')
+        .order('gols_sofridos', { ascending: true });
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    preencher('corpo-melhor-defesa', data, [
+        'clube',
+        'gols_sofridos'
+    ]);
 }
 
 async function carregarArtilheiros() {
@@ -126,6 +180,25 @@ async function carregarAmarelos() {
     preencher('corpo-amarelos', r.data, ['clube', 'jogador', 'amarelos']);
 }
 
+async function carregarTreinadores() {
+    const { data, error } = await db
+        .from('vw_treinadores')
+        .select('*')
+        .order('clube', { ascending: true });
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    preencherJogos('corpo-treinadores', data, [
+        'clube',
+        'treinador',
+        'nacionalidade',
+        'idade'
+    ]);
+}
+
 async function carregarRodada1() {
     const { data, error } = await db.from('vw_rodada_1').select('*');
 
@@ -134,7 +207,7 @@ async function carregarRodada1() {
         return;
     }
 
-    preencherJogos('conteudo-rodada-1', data, [
+    preencherJogos('corpo-rodada-1', data, [
     'rodada',
     'data_hora',
     'mandante',
@@ -153,7 +226,7 @@ async function carregarRodada2() {
         return;
     }
 
-    preencherJogos('conteudo-rodada-2', data, [
+    preencherJogos('corpo-rodada-2', data, [
     'rodada',
     'data_hora',
     'mandante',
@@ -172,7 +245,7 @@ async function carregarRodada3() {
         return;
     }
 
-    preencherJogos('conteudo-rodada-3', data, [
+    preencherJogos('corpo-rodada-3', data, [
     'rodada',
     'data_hora',
     'mandante',
@@ -191,7 +264,7 @@ async function carregarRodada4() {
         return;
     }
 
-    preencherJogos('conteudo-rodada-4', data, [
+    preencherJogos('corpo-rodada-4', data, [
     'rodada',
     'data_hora',
     'mandante',
@@ -210,7 +283,7 @@ async function carregarRodada5() {
         return;
     }
 
-    preencherJogos('conteudo-rodada-5', data, [
+    preencherJogos('corpo-rodada-5', data, [
     'rodada',
     'data_hora',
     'mandante',
@@ -232,7 +305,7 @@ async function carregarMaisGols() {
         return;
     }
 
-    preencherJogos('conteudo-mais-gols', data, [
+    preencherJogos('corpo-mais-gols', data, [
         'rodada',
         'mandante',
         'placar',
@@ -251,7 +324,7 @@ async function carregarSemGols() {
         return;
     }
 
-    preencherJogos('conteudo-sem-gols', data, [
+    preencherJogos('corpo-sem-gols', data, [
         'rodada',
         'data_hora',
         'mandante',
@@ -270,7 +343,7 @@ async function carregarExpulsos() {
         return;
     }
 
-    preencherJogos('conteudo-expulsos', data, [
+    preencherJogos('corpo-expulsos', data, [
         'rodada',
         'mandante',
         'visitante',
@@ -290,7 +363,7 @@ async function carregarRodadasMaisGols() {
         return;
     }
 
-    preencher('conteudo-rodada-mais-gols', data, [
+    preencher('corpo-rodada-mais-gols', data, [
         'rodada',
         'total_gols'
     ]);
@@ -299,10 +372,13 @@ async function carregarRodadasMaisGols() {
 carregarClassificacao();
 carregarJogosEmCasa();
 carregarJogosFora();
+carregarMelhorAtaque();
+carregarMelhorDefesa();
 carregarArtilheiros();
 carregarAssistentes();
 carregarVermelhos();
 carregarAmarelos();
+carregarTreinadores();
 carregarRodada1();
 carregarRodada2();
 carregarRodada3();
