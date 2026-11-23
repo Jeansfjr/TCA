@@ -1,0 +1,235 @@
+/* ==== Painel Geral ==== */
+
+.painel-clubes {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 24x;
+}
+.painel-clubes input {
+    display: none;
+}
+
+.opcoes-clubes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.opcoes-clubes label {
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--texto);
+    background-color: var(--fundo);
+    transition: 0.2s;
+}
+.opcoes-clubes label:hover {
+    background-color: var(--destaque-claro);
+    color: var(--destaque);
+}
+
+.conteudo-clubes {
+    background-color: var(--cartao);
+    border: 1px solid var(--linha);
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 0;
+    overflow-x: auto;
+}
+
+.conteudo {
+    display: none;
+}
+
+#gremio:checked ~ .opcoes-clubes label[for="gremio"],
+#flamengo:checked ~ .opcoes-clubes label[for="flamengo"],
+#palmeiras:checked ~ .opcoes-clubes label[for="palmeiras"],
+#internacional:checked ~ .opcoes-clubes label[for="internacional"],
+#santos:checked ~ .opcoes-clubes label[for="santos"],
+#corinthians:checked ~ .opcoes-clubes label[for="corinthians"],
+#atletico-mg:checked ~ .opcoes-clubes label[for="atletico-mg"],
+#cruzeiro:checked ~ .opcoes-clubes label[for="cruzeiro"] {
+    background-color: var(--destaque);
+    color: white;
+}
+
+#gremio:checked ~ .conteudo-clubes #tabela-gremio,
+#flamengo:checked ~ .conteudo-clubes #tabela-flamengo,
+#palmeiras:checked ~ .conteudo-clubes #tabela-palmeiras,
+#internacional:checked ~ .conteudo-clubes #tabela-internacional,
+#santos:checked ~ .conteudo-clubes #tabela-santos,
+#corinthians:checked ~ .conteudo-clubes #tabela-corinthians,
+#atletico-mg:checked ~ .conteudo-clubes #tabela-atletico-mg,
+#cruzeiro:checked ~ .conteudo-clubes #tabela-cruzeiro {
+    display: block;
+}
+
+@media (max-width: 600px) {
+    .painel-clubes {
+        grid-template-columns: 1fr;
+    }
+
+    .opcoes-clubes {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+/* === CSS das Tabelas === */
+
+#tabela-gremio th,
+#tabela-flamengo th,
+#tabela-palmeiras th,
+#tabela-internacional th,
+#tabela-santos th,
+#tabela-corinthians th,
+#tabela-atletico-mg th,
+#tabela-cruzeiro th {
+    background-color: var(--destaque-azul);
+    color: white;
+    padding: 12px;
+}
+#tabela-gremio td,
+#tabela-flamengo td,
+#tabela-palmeiras td,
+#tabela-internacional td,
+#tabela-santos td,
+#tabela-corinthians td,
+#tabela-atletico-mg td,
+#tabela-cruzeiro td {
+    padding: 12px;
+    border-bottom: 1px solid var(--linha);
+}
+#tabela-gremio th:first-child,
+#tabela-gremio td:first-child,
+#tabela-flamengo th:first-child,
+#tabela-flamengo td:first-child,
+#tabela-palmeiras th:first-child,
+#tabela-palmeiras td:first-child,
+#tabela-internacional th:first-child,
+#tabela-internacional td:first-child,
+#tabela-santos th:first-child,
+#tabela-santos td:first-child,
+#tabela-corinthians th:first-child,
+#tabela-corinthians td:first-child,
+#tabela-atletico-mg th:first-child,
+#tabela-atletico-mg td:first-child,
+#tabela-cruzeiro th:first-child,
+#tabela-cruzeiro td:first-child {
+    width: 80px;
+}
+#tabela-gremio tbody tr:hover,
+#tabela-flamengo tbody tr:hover,
+#tabela-palmeiras tbody tr:hover,
+#tabela-internacional tbody tr:hover,
+#tabela-santos tbody tr:hover,
+#tabela-corinthians tbody tr:hover,
+#tabela-atletico-mg tbody tr:hover,
+#tabela-cruzeiro tbody tr:hover {
+    background-color: var(--destaque-claro);
+}
+
+#resultado-gremio,
+#resultado-flamengo,
+#resultado-palmeiras,
+#resultado-internacional,
+#resultado-santos,
+#resultado-corinthians,
+#resultado-atletico-mg,
+#resultado-cruzeiro {
+    margin-top: 20px;
+    background-color: var(--cartao);
+    border: 1px solid var(--linha);
+    border-radius: 10px;
+    padding: 20px;
+}
+#resultado-gremio h3,
+#resultado-flamengo h3,
+#resultado-palmeiras h3,
+#resultado-internacional h3,
+#resultado-santos h3,
+#resultado-corinthians h3,
+#resultado-atletico-mg h3,
+#resultado-cruzeiro h3 {
+    color: var(--destaque);
+    margin-bottom: 15px;
+}
+#btn-gremio,
+#btn-flamengo,
+#btn-palmeiras,
+#btn-internacional,
+#btn-santos,
+#btn-corinthians,
+#btn-atletico-mg,
+#btn-cruzeiro {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: white;
+    background-color: var(--destaque);
+}
+#btn-gremio:hover,
+#btn-flamengo:hover,
+#btn-palmeiras:hover,
+#btn-internacional:hover,
+#btn-santos:hover,
+#btn-corinthians:hover,
+#btn-atletico-mg:hover,
+#btn-cruzeiro:hover {
+    background-color: #075c2e;
+}
+#tabela {
+    width: 100%;
+    overflow-x: auto;
+}
+#tabela table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--cartao);
+}
+#tabela th {
+    background-color: var(--destaque-azul);
+    color: white;
+    padding: 12px;
+    text-align: center;
+}
+#tabela td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid var(--linha);
+}
+#tabela tbody tr:nth-child(even) {
+    background-color: var(--destaque-claro);
+}
+#tabela tbody tr:hover {
+    background-color: var(--destaque-claro);
+}
+@media (max-width: 600px) {
+    #resultado-gremio,
+    #resultado-flamengo,
+    #resultado-palmeiras,
+    #resultado-internacional,
+    #resultado-santos,
+    #resultado-corinthians,
+    #resultado-atletico-mg,
+    #resultado-cruzeiro {
+        padding: 10px;
+    }
+
+    #tabela table {
+        min-width: 650px;
+    }
+
+    #tabela th,
+    #tabela td {
+        padding: 8px;
+        font-size: 13px;
+    }
+}
+
+.conteudo-clubes td img {
+    height: 48px;
+    width: auto;
+}

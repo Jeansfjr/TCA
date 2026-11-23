@@ -1,0 +1,213 @@
+
+/* ==== Painel de Premiações ==== */
+
+.painel-premiacoes {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 24px;
+}
+
+.painel-premiacoes input {
+    display: none;
+}
+
+.opcoes-premiacoes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.opcoes-premiacoes label {
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--texto);
+    background-color: var(--fundo);
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.opcoes-premiacoes label img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.opcoes-premiacoes label:hover {
+    background-color: var(--destaque-claro);
+    color: var(--destaque);
+}
+
+.conteudo-premiacoes {
+    background-color: var(--cartao);
+    border: 1px solid var(--linha);
+    border-radius: 10px;
+    padding: 20px;
+    min-width: 0;
+    overflow-x: auto;
+}
+
+.conteudo-premiacoes .conteudo {
+    display: none;
+}
+
+#premiacao-geral:checked ~ .opcoes-premiacoes label[for="premiacao-geral"],
+#libertadores:checked ~ .opcoes-premiacoes label[for="libertadores"],
+#sulamericana:checked ~ .opcoes-premiacoes label[for="sulamericana"],
+#rebaixamento:checked ~ .opcoes-premiacoes label[for="rebaixamento"] {
+    background-color: var(--destaque);
+    color: white;
+}
+
+#premiacao-geral:checked ~ .conteudo-premiacoes #tabela-premiacao-geral,
+#libertadores:checked ~ .conteudo-premiacoes #tabela-libertadores,
+#sulamericana:checked ~ .conteudo-premiacoes #tabela-sulamericana,
+#rebaixamento:checked ~ .conteudo-premiacoes #tabela-rebaixamento {
+    display: block;
+}
+
+/* ==== CSS das Tabelas ==== */
+
+#tabela-premiacao-geral th,
+#tabela-libertadores th,
+#tabela-sulamericana th,
+#tabela-rebaixamento th {
+    background-color: var(--destaque-azul);
+    color: white;
+    padding: 12px;
+    text-align: center;
+}
+
+#tabela-premiacao-geral td,
+#tabela-libertadores td,
+#tabela-sulamericana td,
+#tabela-rebaixamento td {
+    padding: 12px;
+    border-bottom: 1px solid var(--linha);
+    text-align: center;
+}
+
+#tabela-premiacao-geral th:first-child,
+#tabela-premiacao-geral td:first-child,
+#tabela-libertadores th:first-child,
+#tabela-libertadores td:first-child,
+#tabela-sulamericana th:first-child,
+#tabela-sulamericana td:first-child,
+#tabela-rebaixamento th:first-child,
+#tabela-rebaixamento td:first-child {
+    width: 80px;
+}
+
+#tabela-premiacao-geral tbody tr:hover,
+#tabela-libertadores tbody tr:hover,
+#tabela-sulamericana tbody tr:hover,
+#tabela-rebaixamento tbody tr:hover {
+    background-color: var(--destaque-claro);
+}
+
+#resultado-premiacao-geral,
+#resultado-libertadores,
+#resultado-sulamericana,
+#resultado-rebaixamento {
+    margin-top: 20px;
+    background-color: var(--cartao);
+    border: 1px solid var(--linha);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+#resultado-premiacao-geral h3,
+#resultado-libertadores h3,
+#resultado-sulamericana h3,
+#resultado-rebaixamento h3 {
+    color: var(--destaque);
+    margin-bottom: 15px;
+}
+
+#btn-premiacao-geral,
+#btn-libertadores,
+#btn-sulamericana,
+#btn-rebaixamento {
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: white;
+    background-color: var(--destaque);
+}
+
+#btn-premiacao-geral:hover,
+#btn-libertadores:hover,
+#btn-sulamericana:hover,
+#btn-rebaixamento:hover {
+    background-color: #075c2e;
+}
+
+#tabela {
+    width: 100%;
+    overflow-x: auto;
+}
+
+#tabela table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--cartao);
+}
+
+#tabela th {
+    background-color: var(--destaque-azul);
+    color: white;
+    padding: 12px;
+    text-align: center;
+}
+
+#tabela td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid var(--linha);
+}
+
+#tabela tbody tr:nth-child(even) {
+    background-color: var(--destaque-claro);
+}
+
+#tabela tbody tr:hover {
+    background-color: var(--destaque-claro);
+}
+
+.conteudo-premiacoes td img {
+    height: 48px;
+    width: auto;
+}
+
+@media (max-width: 600px) {
+    .painel-premiacoes {
+        grid-template-columns: 1fr;
+    }
+
+    .opcoes-premiacoes {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    #resultado-premiacao-geral,
+    #resultado-libertadores,
+    #resultado-sulamericana,
+    #resultado-rebaixamento {
+        padding: 10px;
+    }
+
+    #tabela table {
+        min-width: 650px;
+    }
+
+    #tabela th,
+    #tabela td {
+        padding: 8px;
+        font-size: 13px;
+    }
+}
