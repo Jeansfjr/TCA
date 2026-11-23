@@ -34,6 +34,7 @@
     border-radius: 10px;
     padding: 20px;
     min-width: 0;
+    overflow-x: auto;
 }
 
 .conteudo {
@@ -42,14 +43,18 @@
 
 #classificacao:checked ~ .opcoes-times label[for="classificacao"],
 #jogos-casa:checked ~ .opcoes-times label[for="jogos-casa"],
-#jogos-fora:checked ~ .opcoes-times label[for="jogos-fora"] {
+#jogos-fora:checked ~ .opcoes-times label[for="jogos-fora"],
+#melhor-ataque:checked ~ .opcoes-times label[for="melhor-ataque"],
+#melhor-defesa:checked ~ .opcoes-times label[for="melhor-defesa"] {
     background-color: var(--destaque);
     color: white;
 }
 
 #classificacao:checked ~ .conteudos-times #tabela-classificacao,
 #jogos-casa:checked ~ .conteudos-times #tabela-jogos-casa,
-#jogos-fora:checked ~ .conteudos-times #tabela-jogos-fora {
+#jogos-fora:checked ~ .conteudos-times #tabela-jogos-fora,
+#melhor-ataque:checked ~ .conteudos-times #tabela-melhor-ataque,
+#melhor-defesa:checked ~ .conteudos-times #tabela-melhor-defesa {
     display: block;
 }
 
@@ -68,14 +73,18 @@
 
 #tabela-classificacao th,
 #tabela-jogos-casa th,
-#tabela-jogos-fora th {
+#tabela-jogos-fora th,
+#tabela-melhor-ataque th,
+#tabela-melhor-defesa th {
     background-color: var(--destaque-azul);
     color: white;
     padding: 12px;
 }
 #tabela-classificacao td,
 #tabela-jogos-casa td,
-#tabela-jogos-fora td {
+#tabela-jogos-fora td,
+#tabela-melhor-ataque td,
+#tabela-melhor-defesa td {
     padding: 12px;
     border-bottom: 1px solid var(--linha);
 }
@@ -84,18 +93,26 @@
 #tabela-jogos-casa th:first-child,
 #tabela-jogos-casa td:first-child,
 #tabela-jogos-fora th:first-child,
-#tabela-jogos-fora td:first-child {
+#tabela-jogos-fora td:first-child,
+#tabela-melhor-ataque th:first-child,
+#tabela-melhor-ataque td:first-child,
+#tabela-melhor-defesa th:first-child,
+#tabela-melhor-defesa td:first-child {
     width: 80px;
 }
 #tabela-classificacao tbody tr:hover,
 #tabela-jogos-casa tbody tr:hover,
-#tabela-jogos-fora tbody tr:hover {
+#tabela-jogos-fora tbody tr:hover,
+#tabela-melhor-ataque tbody tr:hover,
+#tabela-melhor-defesa tbody tr:hover {
     background-color: var(--destaque-claro);
 }
 
 #resultado-classificacao,
 #resultado-jogos-casa,
-#resultado-jogos-fora {
+#resultado-jogos-fora,
+#resultado-melhor-ataque,
+#resultado-melhor-defesa {
     margin-top: 20px;
     background-color: var(--cartao);
     border: 1px solid var(--linha);
@@ -104,24 +121,30 @@
 }
 #resultado-classificacao h3,
 #resultado-jogos-casa h3,
-#resultado-jogos-fora h3 {
+#resultado-jogos-fora h3,
+#resultado-melhor-ataque h3,
+#resultado-melhor-defesa h3 {
     color: var(--destaque);
     margin-bottom: 15px;
 }
 #btn-classificacao,
 #btn-jogos-casa,
-#btn-jogos-fora {
+#btn-jogos-fora,
+#btn-melhor-ataque,
+#btn-melhor-defesa {
     padding: 12px;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
     color: white;
-    background-color: var(--destaque);
+    background-color: var(--destaque-a);
 }
 #btn-classificacao:hover,
 #btn-jogos-casa:hover,
-#btn-jogos-fora:hover {
+#btn-jogos-fora:hover,
+#btn-melhor-ataque:hover,
+#btn-melhor-defesa:hover {
     background-color: #075c2e;
 }
 #tabela {
@@ -153,7 +176,9 @@
 @media (max-width: 600px) {
     #resultado-classificacao,
     #resultado-jogos-casa,
-    #resultado-jogos-fora {
+    #resultado-jogos-fora,
+    #resultado-melhor-ataque,
+    #resultado-melhor-defesa {
         padding: 10px;
     }
 
