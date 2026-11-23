@@ -1,37 +1,39 @@
 const db = supabase.createClient(SUPABASE_URL, SUPABASE_CHAVE);
 
-function preencher(idCorpo, linhas, campos) {
-  const corpo = document.getElementById(idCorpo);
+function preencher(idCorpo, linhas, campos, numerar = true) {
+    const corpo = document.getElementById(idCorpo);
 
-  if (!corpo) {
-    console.error('Tabela não encontrada:', idCorpo);
-    return;
-  }
+    corpo.innerHTML = '';
 
-  corpo.innerHTML = '';
+    linhas.forEach(function (linha, i) {
+        const tr = document.createElement('tr');
 
-  linhas.forEach(function (linha, i) {
-    const tr = document.createElement('tr');
+        const valores = campos.map(function (c) {
+            return linha[c];
+        });
 
-    [i + 1].concat(campos.map(function (c) {
-      return linha[c];
-    })).forEach(function (valor) {
-      const td = document.createElement('td');
-      td.textContent = valor ?? '';
-      tr.appendChild(td);
+        if (numerar) {
+            valores.unshift(i + 1);
+        }
+
+        valores.forEach(function (valor) {
+            const td = document.createElement('td');
+
+            if (typeof valor === 'number' && campos.includes('pagamento')) {
+                td.textContent = valor.toLocaleString('pt-BR');
+            } else {
+                td.textContent = valor ?? '';
+            }
+
+            tr.appendChild(td);
+        });
+
+        corpo.appendChild(tr);
     });
-
-    corpo.appendChild(tr);
-  });
 }
 
 function preencherJogos(idCorpo, linhas, campos) {
     const corpo = document.getElementById(idCorpo);
-
-    if (!corpo) {
-        console.error('Tabela não encontrada:', idCorpo);
-        return;
-    }
 
     corpo.innerHTML = '';
 
@@ -54,7 +56,6 @@ async function carregarClassificacao() {
     .order('vitorias', { ascending: false })
     .order('saldo', { ascending: false })
     .order('gols_pro', { ascending: false });
-  if (r.error) { console.error(r.error); return; }
 
   preencher('corpo-classificacao', r.data,
     ['clube', 'pontos', 'jogos', 'vitorias', 'derrotas', 'saldo']);
@@ -62,7 +63,6 @@ async function carregarClassificacao() {
 
 async function carregarJogosEmCasa() {
   const r = await db.from('vw_desempenho_casa').select('*');
-  if (r.error) { console.error(r.error); return; }
 
   const linhas = r.data.map(function (l) {
     return Object.assign({}, l, { saldo: l.gols_pro - l.gols_contra });
@@ -78,7 +78,6 @@ async function carregarJogosEmCasa() {
 
 async function carregarJogosFora() {
   const r = await db.from('vw_desempenho_fora').select('*');
-  if (r.error) { console.error(r.error); return; }
 
   const linhas = r.data.map(function (l) {
     return Object.assign({}, l, { saldo: l.gols_pro - l.gols_contra });
@@ -93,15 +92,10 @@ async function carregarJogosFora() {
 }
 
 async function carregarMelhorAtaque() {
-    const { data, error } = await db
+    const { data } = await db
         .from('vw_melhor_ataque')
         .select('*')
         .order('gols_marcados', { ascending: false });
-
-    if (error) {
-        console.error(error);
-        return;
-    }
 
     preencher('corpo-melhor-ataque', data, [
         'clube',
@@ -110,15 +104,10 @@ async function carregarMelhorAtaque() {
 }
 
 async function carregarMelhorDefesa() {
-    const { data, error } = await db
+    const { data } = await db
         .from('vw_melhor_defesa')
         .select('*')
         .order('gols_sofridos', { ascending: true });
-
-    if (error) {
-        console.error(error);
-        return;
-    }
 
     preencher('corpo-melhor-defesa', data, [
         'clube',
@@ -128,8 +117,6 @@ async function carregarMelhorDefesa() {
 
 async function carregarArtilheiros() {
     const r = await db.from('vw_artilheiros').select('*');
-
-    if (r.error) { console.error(r.error); return; }
 
     const linhas = r.data;
 
@@ -144,11 +131,6 @@ async function carregarArtilheiros() {
 async function carregarAssistentes() {
     const r = await db.from('vw_assistentes').select('*');
 
-    if (r.error) {
-        console.error(r.error);
-        return;
-    }
-
     const linhas = r.data;
 
     linhas.sort(function (a, b) {
@@ -161,35 +143,20 @@ async function carregarAssistentes() {
 async function carregarVermelhos() {
     const r = await db.from('vw_cartoes_vermelhos').select('*');
 
-    if (r.error) {
-        console.error(r.error);
-        return;
-    }
-
     preencher('corpo-vermelhos', r.data, ['clube', 'jogador', 'vermelhos']);
 }
 
 async function carregarAmarelos() {
     const r = await db.from('vw_cartoes_amarelos').select('*');
 
-    if (r.error) {
-        console.error(r.error);
-        return;
-    }
-
     preencher('corpo-amarelos', r.data, ['clube', 'jogador', 'amarelos']);
 }
 
 async function carregarTreinadores() {
-    const { data, error } = await db
+    const { data } = await db
         .from('vw_treinadores')
         .select('*')
         .order('clube', { ascending: true });
-
-    if (error) {
-        console.error(error);
-        return;
-    }
 
     preencherJogos('corpo-treinadores', data, [
         'clube',
@@ -200,12 +167,7 @@ async function carregarTreinadores() {
 }
 
 async function carregarRodada1() {
-    const { data, error } = await db.from('vw_rodada_1').select('*');
-
-    if (error) {
-        console.error(error);
-        return;
-    }
+    const { data } = await db.from('vw_rodada_1').select('*');
 
     preencherJogos('corpo-rodada-1', data, [
     'rodada',
@@ -219,12 +181,7 @@ async function carregarRodada1() {
 }
 
 async function carregarRodada2() {
-    const { data, error } = await db.from('vw_rodada_2').select('*');
-
-    if (error) {
-        console.error(error);
-        return;
-    }
+    const { data } = await db.from('vw_rodada_2').select('*');
 
     preencherJogos('corpo-rodada-2', data, [
     'rodada',
@@ -238,12 +195,7 @@ async function carregarRodada2() {
 }
 
 async function carregarRodada3() {
-    const { data, error } = await db.from('vw_rodada_3').select('*');
-
-    if (error) {
-        console.error(error);
-        return;
-    }
+    const { data } = await db.from('vw_rodada_3').select('*');
 
     preencherJogos('corpo-rodada-3', data, [
     'rodada',
@@ -257,12 +209,7 @@ async function carregarRodada3() {
 }
 
 async function carregarRodada4() {
-    const { data, error } = await db.from('vw_rodada_4').select('*');
-
-    if (error) {
-        console.error(error);
-        return;
-    }
+    const { data } = await db.from('vw_rodada_4').select('*');
 
     preencherJogos('corpo-rodada-4', data, [
     'rodada',
@@ -276,12 +223,7 @@ async function carregarRodada4() {
 }
 
 async function carregarRodada5() {
-    const { data, error } = await db.from('vw_rodada_5').select('*');
-
-    if (error) {
-        console.error(error);
-        return;
-    }
+    const { data } = await db.from('vw_rodada_5').select('*');
 
     preencherJogos('corpo-rodada-5', data, [
     'rodada',
@@ -295,15 +237,10 @@ async function carregarRodada5() {
 }
 
 async function carregarMaisGols() {
-    const { data, error } = await db
+    const { data } = await db
         .from('vw_mais_gols')
         .select('*')
         .order('total_gols', { ascending: false });
-
-    if (error) {
-        console.error(error);
-        return;
-    }
 
     preencherJogos('corpo-mais-gols', data, [
         'rodada',
@@ -315,14 +252,9 @@ async function carregarMaisGols() {
 }
 
 async function carregarSemGols() {
-    const { data, error } = await db
+    const { data } = await db
         .from('vw_sem_gols')
         .select('*');
-
-    if (error) {
-        console.error(error);
-        return;
-    }
 
     preencherJogos('corpo-sem-gols', data, [
         'rodada',
@@ -334,14 +266,9 @@ async function carregarSemGols() {
 }
 
 async function carregarExpulsos() {
-    const { data, error } = await db
+    const { data } = await db
         .from('vw_expulsos')
         .select('*');
-
-    if (error) {
-        console.error(error);
-        return;
-    }
 
     preencherJogos('corpo-expulsos', data, [
         'rodada',
@@ -353,20 +280,132 @@ async function carregarExpulsos() {
 }
 
 async function carregarRodadasMaisGols() {
-    const { data, error } = await db
+    const { data } = await db
         .from('vw_rodadas_mais_gols')
         .select('*')
         .order('total_gols', { ascending: false });
-
-    if (error) {
-        console.error(error);
-        return;
-    }
 
     preencher('corpo-rodada-mais-gols', data, [
         'rodada',
         'total_gols'
     ]);
+}
+
+
+async function carregarInformacoesClubes() {
+    const { data, error } = await db
+        .from('vw_informacoes_clubes')
+        .select('*');
+
+    const clubes = [
+        { nome: 'Gremio', id: 'corpo-gremio', escudo: 'gremio.png' },
+        { nome: 'Flamengo', id: 'corpo-flamengo', escudo: 'flamengo.png' },
+        { nome: 'Palmeiras', id: 'corpo-palmeiras', escudo: 'palmeiras.png' },
+        { nome: 'Internacional', id: 'corpo-internacional', escudo: 'internacional.png' },
+        { nome: 'Santos', id: 'corpo-santos', escudo: 'santos.png' },
+        { nome: 'Corinthians', id: 'corpo-corinthians', escudo: 'corinthians.png' },
+        { nome: 'Atletico-MG', id: 'corpo-atletico-mg', escudo: 'atletico-mg.png' },
+        { nome: 'Cruzeiro', id: 'corpo-cruzeiro', escudo: 'cruzeiro.png' }
+    ];
+
+    clubes.forEach(clube => {
+        const corpo = document.getElementById(clube.id);
+        const informacoes = data.find(item => item.clube === clube.nome);
+
+        corpo.innerHTML = `
+            <tr>
+                <td>
+                    <img src="img/${clube.escudo}" alt="Escudo do ${clube.nome}">
+                </td>
+                <td>${informacoes.treinador}</td>
+                <td>${informacoes.estadio}</td>
+                <td>${informacoes.capacidade.toLocaleString('pt-BR')}</td>
+                <td>${informacoes.ano_fundacao}</td>
+                <td>${informacoes.cidade}</td>
+            </tr>
+        `;
+    });
+}
+
+
+async function carregarPremiacoes() {
+    const { data } = await db
+        .from('vw_premiacoes')
+        .select('*')
+        .order('posicao');
+
+    preencher(
+        'corpo-premiacao-geral',
+        data,
+        ['clube', 'posicao', 'acesso', 'pagamento', 'rebaixamento'],
+            false
+        );
+
+        preencher(
+            'corpo-libertadores',
+            libertadores,
+            ['clube', 'posicao', 'pagamento'],
+            false
+        );
+
+        preencher(
+            'corpo-sulamericana',
+            sulamericana,
+            ['clube', 'posicao', 'pagamento'],
+            false
+        );
+
+        preencher(
+            'corpo-rebaixamento',
+            rebaixamento,
+            ['clube', 'posicao', 'pagamento'],
+            false
+        );
+}
+
+async function carregarLibertadores() {
+    const { data } = await db
+        .from('vw_premiacoes')
+        .select('*')
+        .eq('acesso', 'Libertadores')
+        .order('posicao');
+
+    preencher(
+        'corpo-libertadores',
+        data,
+        ['clube', 'posicao', 'pagamento'],
+        false
+    );
+}
+
+async function carregarSulamericana() {
+    const { data } = await db
+        .from('vw_premiacoes')
+        .select('*')
+        .eq('acesso', 'Sul-Americana')
+        .order('posicao');
+
+    preencher(
+        'corpo-sulamericana',
+        data,
+        ['clube', 'posicao', 'pagamento'],
+        false
+    );
+}
+
+async function carregarRebaixamento() {
+    const { data } = await db
+        .from('vw_premiacoes')
+        .select('*')
+        .eq('rebaixamento', 'Sim')
+        .order('posicao');
+
+    preencher(
+        'corpo-rebaixamento',
+        data,
+        ['clube', 'posicao', 'pagamento'],
+        false
+    );
 }
 
 carregarClassificacao();
@@ -388,3 +427,8 @@ carregarMaisGols();
 carregarSemGols();
 carregarExpulsos();
 carregarRodadasMaisGols();
+carregarInformacoesClubes();
+carregarPremiacoes();
+carregarLibertadores();
+carregarSulamericana();
+carregarRebaixamento();
